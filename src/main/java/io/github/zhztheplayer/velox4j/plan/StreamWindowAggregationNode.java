@@ -34,8 +34,6 @@ public class StreamWindowAggregationNode extends PlanNode {
   private final PartitionFunctionSpec sliceAssignerSpec;
   private final KeyedStateSpec keyedStateSpec;
   private final String shiftTimeZone;
-  private final Long windowInterval;
-  private final boolean useDayLightSaving;
   private final boolean isLocalAgg;
   private final Long size;
   private final Long step;
@@ -56,8 +54,6 @@ public class StreamWindowAggregationNode extends PlanNode {
       @JsonProperty("sliceAssignerSpec") PartitionFunctionSpec sliceAssignerSpec,
       @JsonProperty("keyedStateSpec") KeyedStateSpec keyedStateSpec,
       @JsonProperty("shiftTimeZone") String shiftTimeZone,
-      @JsonProperty("windowInterval") Long windowInterval,
-      @JsonProperty("useDayLightSaving") boolean useDayLightSaving,
       @JsonProperty("isLocalAgg") boolean isLocalAgg,
       @JsonProperty("size") Long size,
       @JsonProperty("step") Long step,
@@ -75,8 +71,6 @@ public class StreamWindowAggregationNode extends PlanNode {
     this.sliceAssignerSpec = sliceAssignerSpec;
     this.keyedStateSpec = keyedStateSpec;
     this.shiftTimeZone = shiftTimeZone;
-    this.windowInterval = windowInterval;
-    this.useDayLightSaving = useDayLightSaving;
     this.isLocalAgg = isLocalAgg;
     this.size = size;
     this.step = step;
@@ -117,16 +111,6 @@ public class StreamWindowAggregationNode extends PlanNode {
   @JsonGetter("localAgg")
   public PlanNode getLocalAgg() {
     return localAgg;
-  }
-
-  @JsonGetter("windowInterval")
-  public Long getWindowInterval() {
-    return windowInterval;
-  }
-
-  @JsonGetter("useDayLightSaving")
-  public boolean useDayLightSaving() {
-    return useDayLightSaving;
   }
 
   @JsonGetter("isLocalAgg")
