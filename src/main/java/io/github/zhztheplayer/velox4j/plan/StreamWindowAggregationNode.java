@@ -1,18 +1,20 @@
 /*
-* Licensed to the Apache Software Foundation (ASF) under one or more
-* contributor license agreements.  See the NOTICE file distributed with
-* this work for additional information regarding copyright ownership.
-* The ASF licenses this file to You under the Apache License, Version 2.0
-* (the "License"); you may not use this file except in compliance with
-* the License.  You may obtain a copy of the License at
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to You under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
 *
 *    http://www.apache.org/licenses/LICENSE-2.0
 *
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
 */
 package io.github.zhztheplayer.velox4j.plan;
 
@@ -22,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.github.zhztheplayer.velox4j.stateful.KeyedStateSpec;
 import io.github.zhztheplayer.velox4j.type.RowType;
 
 public class StreamWindowAggregationNode extends PlanNode {
@@ -29,6 +32,8 @@ public class StreamWindowAggregationNode extends PlanNode {
   private final PlanNode localAgg;
   private final PartitionFunctionSpec keySelectorSpec;
   private final PartitionFunctionSpec sliceAssignerSpec;
+  private final KeyedStateSpec keyedStateSpec;
+  private final String shiftTimeZone;
   private final Long windowInterval;
   private final boolean useDayLightSaving;
   private final boolean isLocalAgg;
@@ -49,6 +54,8 @@ public class StreamWindowAggregationNode extends PlanNode {
       @JsonProperty("localAgg") PlanNode localAgg,
       @JsonProperty("keySelectorSpec") PartitionFunctionSpec keySelectorSpec,
       @JsonProperty("sliceAssignerSpec") PartitionFunctionSpec sliceAssignerSpec,
+      @JsonProperty("keyedStateSpec") KeyedStateSpec keyedStateSpec,
+      @JsonProperty("shiftTimeZone") String shiftTimeZone,
       @JsonProperty("windowInterval") Long windowInterval,
       @JsonProperty("useDayLightSaving") boolean useDayLightSaving,
       @JsonProperty("isLocalAgg") boolean isLocalAgg,
@@ -66,6 +73,8 @@ public class StreamWindowAggregationNode extends PlanNode {
     this.localAgg = localAgg;
     this.keySelectorSpec = keySelectorSpec;
     this.sliceAssignerSpec = sliceAssignerSpec;
+    this.keyedStateSpec = keyedStateSpec;
+    this.shiftTimeZone = shiftTimeZone;
     this.windowInterval = windowInterval;
     this.useDayLightSaving = useDayLightSaving;
     this.isLocalAgg = isLocalAgg;
@@ -88,6 +97,16 @@ public class StreamWindowAggregationNode extends PlanNode {
   @JsonGetter("sliceAssignerSpec")
   public PartitionFunctionSpec getSliceAssignerSpec() {
     return sliceAssignerSpec;
+  }
+
+  @JsonGetter("keyedStateSpec")
+  public KeyedStateSpec getKeyedStateSpec() {
+    return keyedStateSpec;
+  }
+
+  @JsonGetter("shiftTimeZone")
+  public String getShiftTimeZone() {
+    return shiftTimeZone;
   }
 
   @JsonGetter("aggregation")
