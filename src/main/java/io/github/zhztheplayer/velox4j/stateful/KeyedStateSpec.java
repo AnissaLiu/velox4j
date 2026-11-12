@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.github.zhztheplayer.velox4j.serializable.ISerializable;
 import io.github.zhztheplayer.velox4j.type.Type;
 
 import java.util.List;
 
-public class KeyedStateSpec {
+/** Mirror of velox's stateful::KeyedStateSpec. Registered under "KeyedStateSpec" so the C++ side can deserialize the nested plan-node field (the C++ ISerializable entry reads the "name" key). */
+public class KeyedStateSpec extends ISerializable {
   private final List<Integer> keyChannels;
   private final List<Type> keyTypes;
 
