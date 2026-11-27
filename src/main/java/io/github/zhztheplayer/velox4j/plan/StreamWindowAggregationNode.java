@@ -27,10 +27,12 @@ import io.github.zhztheplayer.velox4j.type.RowType;
 
 public class StreamWindowAggregationNode extends PlanNode {
   private final PlanNode aggregation;
+  private final PlanNode localAgg;
   private final PartitionFunctionSpec keySelectorSpec;
   private final PartitionFunctionSpec sliceAssignerSpec;
   private final KeyedStateSpec keyedStateSpec;
   private final String shiftTimeZone;
+  private final boolean isLocalAgg;
   private final Long size;
   private final Long step;
   private final Long offset;
@@ -45,25 +47,29 @@ public class StreamWindowAggregationNode extends PlanNode {
   public StreamWindowAggregationNode(
       @JsonProperty("id") String id,
       @JsonProperty("aggregation") PlanNode aggregation,
+      @JsonProperty("localAgg") PlanNode localAgg,
       @JsonProperty("keySelectorSpec") PartitionFunctionSpec keySelectorSpec,
       @JsonProperty("sliceAssignerSpec") PartitionFunctionSpec sliceAssignerSpec,
       @JsonProperty("keyedStateSpec") KeyedStateSpec keyedStateSpec,
       @JsonProperty("shiftTimeZone") String shiftTimeZone,
+      @JsonProperty("isLocalAgg") boolean isLocalAgg,
       @JsonProperty("size") Long size,
       @JsonProperty("step") Long step,
       @JsonProperty("offset") Long offset,
       @JsonProperty("windowType") Integer windowType,
       @JsonProperty("outputType") RowType outputType,
-      @JsonProperty("isRowTime") boolean isEventTime,
+      @JsonProperty("isEventTime") boolean isEventTime,
       @JsonProperty("rowtimeIndex") Integer rowtimeIndex,
       @JsonProperty("windowStartIndex") Integer windowStart,
       @JsonProperty("windowEndIndex") Integer windowEnd) {
     super(id);
     this.aggregation = aggregation;
+    this.localAgg = localAgg;
     this.keySelectorSpec = keySelectorSpec;
     this.sliceAssignerSpec = sliceAssignerSpec;
     this.keyedStateSpec = keyedStateSpec;
     this.shiftTimeZone = shiftTimeZone;
+    this.isLocalAgg = isLocalAgg;
     this.size = size;
     this.step = step;
     this.offset = offset;
@@ -98,6 +104,16 @@ public class StreamWindowAggregationNode extends PlanNode {
   @JsonGetter("aggregation")
   public PlanNode getAggregation() {
     return aggregation;
+  }
+
+  @JsonGetter("localAgg")
+  public PlanNode getLocalAgg() {
+    return localAgg;
+  }
+
+  @JsonGetter("isLocalAgg")
+  public boolean isLocalAgg() {
+    return isLocalAgg;
   }
 
   @JsonGetter("size")

@@ -68,10 +68,12 @@ public class WindowPlanNodeSerdeTest {
     return new StreamWindowAggregationNode(
         "window-agg-id",
         aggregation,
+        null,
         new HashPartitionFunctionSpec(INPUT_TYPE, List.of(0)),
         new StreamWindowPartitionFunctionSpec(INPUT_TYPE, 1, 3600000L, 60000L, 0L, windowType),
         new KeyedStateSpec(List.of(0), List.of(new BigIntType())),
         "UTC",
+        false,
         3600000L,
         60000L,
         0L,
